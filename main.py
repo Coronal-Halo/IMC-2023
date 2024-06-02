@@ -148,6 +148,8 @@ def main(args):
         else get_data_from_dir(data_dir, args.mode)
     )
 
+    print(data_dict)
+
     # RUN
     metrics = {}
     out_results = {}
