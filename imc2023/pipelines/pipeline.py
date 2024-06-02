@@ -530,6 +530,7 @@ class Pipeline:
 
         self.sparse_model.write(self.paths.sfm_dir)
 
+
     def run(self) -> None:
         """Run the pipeline."""
         self.timing = {

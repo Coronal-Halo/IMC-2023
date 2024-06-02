@@ -241,7 +241,8 @@ def eval(
             if i == 0:
                 fw.write("image_path,dataset,scene,rotation_matrix,translation_vector\n")
             else:
-                dataset, scene, image, R, T = l.strip().split(",")
+                image, dataset, scene, R, T = l.strip().split(",")
+                # dataset, scene, image, R, T = l.strip().split(",")
                 fw.write(f"{image},{dataset},{scene},{R},{T}\n")
 
     return eval_submission(

@@ -207,7 +207,8 @@ def main(args):
 
             logging.info(f"Extracting results for {dataset} - {scene}")
             for _, im in sparse_model.images.items():
-                img_name = os.path.join(dataset, scene, "images", im.name)
+                # img_name = os.path.join(dataset, scene, "images", im.name)
+                img_name = os.path.join("test", dataset, "images", im.name)
                 # problem: tvec is a reference! --> force copy
                 out_results[dataset][scene][img_name] = {"R": im.rotmat(), "t": np.array(im.tvec)}
 
@@ -234,9 +235,12 @@ def main(args):
             # delete scene dir
             if args.mode == "test":
                 shutil.rmtree(paths.scene_dir)
-
-    create_submission(out_results, data_dict, submission_csv_path)
-    create_submission(out_results, data_dict, "submission.csv")
+                
+            break
+    
+    print(out_results)
+    create_submission(out_results, data_dict)
+    create_submission(out_results, data_dict)
 
     if args.mode == "train":
         # # WRITE SUBMISSION

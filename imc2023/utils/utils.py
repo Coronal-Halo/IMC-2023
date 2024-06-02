@@ -137,37 +137,65 @@ def get_data_from_dict(data_dir: str) -> Dict[str, Any]:
 #     return data_dict
 
 
-def create_submission(out_results: Dict[str, Any], data_dict: Dict[str, Any], fname: str):
-    """Function to create a submission file.
+# def create_submission(out_results: Dict[str, Any], data_dict: Dict[str, Any], fname: str):
+#     """Function to create a submission file.
 
-    Args:
-        out_results (Dict[str, Any]): Estimated poses.
-        data_dict (Dict[str, Any]): Data dictionary.
-        fname (str): Output file name.
-    """
-    n_images_total = 0
-    n_images_written = 0
-    with open(fname, "w") as f:
-        f.write("image_path,dataset,scene,rotation_matrix,translation_vector\n")
+#     Args:
+#         out_results (Dict[str, Any]): Estimated poses.
+#         data_dict (Dict[str, Any]): Data dictionary.
+#         fname (str): Output file name.
+#     """
+#     n_images_total = 0
+#     n_images_written = 0
+#     with open(fname, "w") as f:
+#         f.write("image_path,dataset,scene,rotation_matrix,translation_vector\n")
+#         for dataset in data_dict:
+#             res = out_results.get(dataset, {})
+#             for scene in data_dict[dataset]:
+#                 scene_res = res[scene] if scene in res else {"R": {}, "t": {}}
+#                 for image in data_dict[dataset][scene]:
+#                     n_images_total += 1
+#                     if image in scene_res:
+#                         # print(image)
+#                         R = np.array(scene_res[image]["R"]).reshape(-1)
+#                         T = np.array(scene_res[image]["t"]).reshape(-1)
+#                         n_images_written += 1
+#                     else:
+#                         R = np.eye(3).reshape(-1)
+#                         T = np.zeros((3))
+#                     f.write(f"{image},{dataset},{scene},{arr_to_str(R)},{arr_to_str(T)}\n")
+#     f.close()
+
+#     logging.info(f"Written {n_images_written} of {n_images_total} images to submission file.")
+
+
+def arr_to_str(a):
+    return ';'.join([str(x) for x in a.reshape(-1)])
+
+# Function to create a submission file.
+def create_submission(out_results, data_dict):
+    with open(f'submission.csv', 'w') as f:
+        f.write('image_path,dataset,scene,rotation_matrix,translation_vector\n')
         for dataset in data_dict:
-            res = out_results.get(dataset, {})
+            if dataset in out_results:
+                res = out_results[dataset]
+            else:
+                res = {}
             for scene in data_dict[dataset]:
-                scene_res = res[scene] if scene in res else {"R": {}, "t": {}}
+                if scene in res:
+                    scene_res = res[scene]
+                else:
+                    scene_res = {"R":{}, "t":{}}
                 for image in data_dict[dataset][scene]:
-                    n_images_total += 1
                     if image in scene_res:
-                        # print(image)
-                        R = np.array(scene_res[image]["R"]).reshape(-1)
-                        T = np.array(scene_res[image]["t"]).reshape(-1)
-                        n_images_written += 1
+                        R = scene_res[image]['R'].reshape(-1)
+                        T = scene_res[image]['t'].reshape(-1)
                     else:
                         R = np.eye(3).reshape(-1)
                         T = np.zeros((3))
-                    f.write(f"{image},{dataset},{scene},{arr_to_str(R)},{arr_to_str(T)}\n")
-    f.close()
+                    f.write(f'{image},{dataset},{scene},{arr_to_str(R)},{arr_to_str(T)}\n')
 
-    logging.info(f"Written {n_images_written} of {n_images_total} images to submission file.")
-
+                    
 
 class DataPaths:
     def __init__(self, data_dir: str, output_dir: str, dataset: str, scene: str, mode: str):
@@ -187,7 +215,7 @@ class DataPaths:
         # self.scene_dir = output_dir / dataset / scene
         # self.image_dir = self.scene_dir / "images"
         self.input_dir = Path(f"{data_dir}/{mode}/{dataset}")
-        self.scene_dir = output_dir / dataset
+        self.scene_dir = output_dir / dataset 
         self.image_dir = self.scene_dir / "images"
 
         # self.reference_model = self.input_dir / "sfm"
