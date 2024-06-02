@@ -133,6 +133,7 @@ def get_data_from_dir(data_dir: str, mode: str) -> Dict[str, Any]:
                 data_dict[dataset][scene].append(os.path.join(dataset, "images", img))
 
     log_data_dict(data_dict)
+    print(data_dict)
     return data_dict
 
 
