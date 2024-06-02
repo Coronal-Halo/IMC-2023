@@ -120,11 +120,17 @@ def get_data_from_dir(data_dir: str, mode: str) -> Dict[str, Any]:
 
         dataset_dir = os.path.join(data_dir, mode, dataset)
         scenes = [x for x in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, x))]
+        # for scene in scenes:
+        #     image_dir = os.path.join(dataset_dir, scene, "images")
+        #     data_dict[dataset][scene] = []
+        #     for img in os.listdir(image_dir):
+        #         data_dict[dataset][scene].append(os.path.join(dataset, scene, "images", img))
+
         for scene in scenes:
-            image_dir = os.path.join(dataset_dir, scene, "images")
+            image_dir = os.path.join(dataset_dir, "images")
             data_dict[dataset][scene] = []
             for img in os.listdir(image_dir):
-                data_dict[dataset][scene].append(os.path.join(dataset, scene, "images", img))
+                data_dict[dataset][scene].append(os.path.join(dataset, "images", img))
 
     log_data_dict(data_dict)
     return data_dict
