@@ -144,11 +144,9 @@ def main(args):
     # SETUP DATA DICT
     data_dict = (
         get_data_from_dict(data_dir)
-        if args.mode == "test"
-        else get_data_from_dir(data_dir, args.mode)
+        # if args.mode == "test"
+        # else get_data_from_dir(data_dir, args.mode)
     )
-
-    print(data_dict)
 
     # RUN
     metrics = {}
