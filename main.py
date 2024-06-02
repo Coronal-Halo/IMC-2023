@@ -22,7 +22,7 @@ from imc2023.utils.utils import (
     DataPaths,
     create_submission,
     get_data_from_dict,
-    get_data_from_dir,
+    # get_data_from_dir,
     setup_logger,
 )
 

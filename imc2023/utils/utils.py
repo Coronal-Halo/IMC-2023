@@ -89,52 +89,52 @@ def get_data_from_dict(data_dir: str) -> Dict[str, Any]:
     return data_dict
 
 
-def get_data_from_dir(data_dir: str, mode: str) -> Dict[str, Any]:
-    """Function to get data from a directory.
+# def get_data_from_dir(data_dir: str, mode: str) -> Dict[str, Any]:
+#     """Function to get data from a directory.
 
-    Args:
-        data_dir (str): Path to data directory.
-        mode (str): Mode (train or test).
+#     Args:
+#         data_dir (str): Path to data directory.
+#         mode (str): Mode (train or test).
 
-    Raises:
-        ValueError: Invalid mode.
+#     Raises:
+#         ValueError: Invalid mode.
 
-    Returns:
-        Dict[str, Any]: Data dictionary.
-    """
-    if mode not in {"train", "test"}:
-        raise ValueError(f"Invalid mode: {mode}")
+#     Returns:
+#         Dict[str, Any]: Data dictionary.
+#     """
+#     if mode not in {"train", "test"}:
+#         raise ValueError(f"Invalid mode: {mode}")
 
-    data_dict = {}
-    datasets = [
-        x
-        for x in os.listdir(os.path.join(data_dir, mode))
-        if os.path.isdir(os.path.join(data_dir, mode, x))
-    ]
-    for dataset in datasets:
-        # SKIP PHOTOTOURISM FOR TRAINING
-        if mode == "train" and dataset == "phototourism":
-            continue
-        if dataset not in data_dict:
-            data_dict[dataset] = {}
+#     data_dict = {}
+#     datasets = [
+#         x
+#         for x in os.listdir(os.path.join(data_dir, mode))
+#         if os.path.isdir(os.path.join(data_dir, mode, x))
+#     ]
+#     for dataset in datasets:
+#         # SKIP PHOTOTOURISM FOR TRAINING
+#         if mode == "train" and dataset == "phototourism":
+#             continue
+#         if dataset not in data_dict:
+#             data_dict[dataset] = {}
 
-        dataset_dir = os.path.join(data_dir, mode, dataset)
-        scenes = [x for x in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, x))]
-        # for scene in scenes:
-        #     image_dir = os.path.join(dataset_dir, scene, "images")
-        #     data_dict[dataset][scene] = []
-        #     for img in os.listdir(image_dir):
-        #         data_dict[dataset][scene].append(os.path.join(dataset, scene, "images", img))
+#         dataset_dir = os.path.join(data_dir, mode, dataset)
+#         scenes = [x for x in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, x))]
+#         # for scene in scenes:
+#         #     image_dir = os.path.join(dataset_dir, scene, "images")
+#         #     data_dict[dataset][scene] = []
+#         #     for img in os.listdir(image_dir):
+#         #         data_dict[dataset][scene].append(os.path.join(dataset, scene, "images", img))
 
-        for scene in scenes:
-            image_dir = os.path.join(dataset_dir, "images")
-            data_dict[dataset][scene] = []
-            for img in os.listdir(image_dir):
-                data_dict[dataset][scene].append(os.path.join(dataset, "images", img))
+#         for scene in scenes:
+#             image_dir = os.path.join(dataset_dir, "images")
+#             data_dict[dataset][scene] = []
+#             for img in os.listdir(image_dir):
+#                 data_dict[dataset][scene].append(os.path.join(dataset, "images", img))
 
-    log_data_dict(data_dict)
-    print(data_dict)
-    return data_dict
+#     log_data_dict(data_dict)
+#     print(data_dict)
+#     return data_dict
 
 
 def create_submission(out_results: Dict[str, Any], data_dict: Dict[str, Any], fname: str):
