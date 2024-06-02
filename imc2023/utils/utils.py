@@ -183,8 +183,11 @@ class DataPaths:
         if mode not in {"train", "test"}:
             raise ValueError(f"Invalid mode: {mode}")
 
-        self.input_dir = Path(f"{data_dir}/{mode}/{dataset}/{scene}")
-        self.scene_dir = output_dir / dataset / scene
+        # self.input_dir = Path(f"{data_dir}/{mode}/{dataset}/{scene}")
+        # self.scene_dir = output_dir / dataset / scene
+        # self.image_dir = self.scene_dir / "images"
+        self.input_dir = Path(f"{data_dir}/{mode}/{dataset}")
+        self.scene_dir = output_dir / dataset
         self.image_dir = self.scene_dir / "images"
 
         # self.reference_model = self.input_dir / "sfm"
